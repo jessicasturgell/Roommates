@@ -177,7 +177,7 @@ namespace Roommates
                         List<Roommate> roommates = roommateRepo.GetAll();
                         foreach (Roommate r in roommates)
                         {
-                            Console.WriteLine($"{r.FirstName} {r.LastName} has an Id of {r.Id}");
+                            Console.WriteLine($"{r.FirstName} {r.LastName} has an Id of {r.Id}. Their room is {r.Room.Name}.");
                         }
                         Console.Write("Press any key to continue");
                         Console.ReadKey();
