@@ -251,5 +251,19 @@ namespace Roommates.Repositories
                 }
             }
         }
+        public void Delete(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    // What do you think this code will do if there is a roommate in the room we're deleting???
+                    cmd.CommandText = "DELETE FROM Roommate WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

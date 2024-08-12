@@ -84,6 +84,19 @@ namespace Roommates
                         Console.Write("Press any key to continue");
                         Console.ReadKey();
                         break;
+                    case ("Delete a room"):
+                        List<Room> roomOptionsForDelete = roomRepo.GetAll();
+                        foreach (Room r in roomOptionsForDelete)
+                        {
+                            Console.WriteLine($"{r.Id} - {r.Name}");
+                        }
+                        Console.Write("Which room would you like to delete? ");
+                        int selectedRoomForDeleteId = int.Parse(Console.ReadLine());
+                        roomRepo.Delete(selectedRoomForDeleteId);
+                        Console.WriteLine("Room deleted successfully.");
+                        Console.Write("Press any key to continue");
+                        Console.ReadKey();
+                        break;
                     case ("Show all chores"):
                         List<Chore> chores = choreRepo.GetAll();
                         foreach (Chore c in chores)
@@ -212,6 +225,19 @@ namespace Roommates
                         Console.Write("Press any key to continue");
                         Console.ReadKey();
                         break;
+                    case ("Delete a roommate"):
+                        List<Roommate> roommateOptionsForDelete = roommateRepo.GetAll();
+                        foreach (Roommate r in roommateOptionsForDelete)
+                        {
+                            Console.WriteLine($"{r.Id} - {r.FirstName} {r.LastName}");
+                        }
+                        Console.Write("Which roommate would you like to delete? ");
+                        int selectedRoommateForDeleteId = int.Parse(Console.ReadLine());
+                        roommateRepo.Delete(selectedRoommateForDeleteId);
+                        Console.WriteLine("Roommate deleted successfully.");
+                        Console.Write("Press any key to continue");
+                        Console.ReadKey();
+                        break;
                     case ("Exit"):
                         runProgram = false;
                         break;
@@ -229,6 +255,8 @@ namespace Roommates
                 "Show all rooms",
                 "Search for room",
                 "Add a room",
+                "Update a room",
+                "Delete a room",
                 "Show all chores",
                 "Search for chore",
                 "Add a chore",
@@ -238,6 +266,7 @@ namespace Roommates
                 "Search roommates by room id",
                 "Add a roommate",
                 "Update a roommate",
+                "Delete a roommate",
                 "Exit"
             };
 
