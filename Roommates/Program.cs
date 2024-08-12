@@ -140,6 +140,39 @@ namespace Roommates
                         Console.Write("Press any key to continue");
                         Console.ReadKey();
                         break;
+                    case ("Update a chore"):
+                        List<Chore> choreOptions = choreRepo.GetAll();
+                        foreach (Chore c in choreOptions)
+                        {
+                            Console.WriteLine($"{c.Id} - {c.Name}");
+                        }
+
+                        Console.Write("Which chore would you like to update? ");
+                        int selectedChoreId = int.Parse(Console.ReadLine());
+                        Chore selectedChore = choreOptions.FirstOrDefault(c => c.Id == selectedChoreId);
+
+                        Console.Write("New Name: ");
+                        selectedChore.Name = Console.ReadLine();
+
+                        choreRepo.Update(selectedChore);
+
+                        Console.WriteLine("Chore has been successfully updated");
+                        Console.Write("Press any key to continue");
+                        Console.ReadKey();
+                        break;
+                    case ("Delete a chore"):
+                        List<Chore> choreOptionsForDelete = choreRepo.GetAll();
+                        foreach (Chore c in choreOptionsForDelete)
+                        {
+                            Console.WriteLine($"{c.Id} - {c.Name}");
+                        }
+                        Console.Write("Which chore would you like to delete? ");
+                        int selectedChoreForDeleteId = int.Parse(Console.ReadLine());
+                        choreRepo.Delete(selectedChoreForDeleteId);
+                        Console.WriteLine("Chore deleted successfully.");
+                        Console.Write("Press any key to continue");
+                        Console.ReadKey();
+                        break;
                     case ("Show all roommates"):
                         List<Roommate> roommates = roommateRepo.GetAll();
                         foreach (Roommate r in roommates)
@@ -261,6 +294,8 @@ namespace Roommates
                 "Search for chore",
                 "Add a chore",
                 "Show unassigned chores",
+                "Update a chore",
+                "Delete a chore",
                 "Show all roommates",
                 "Search for roommate",
                 "Search roommates by room id",
