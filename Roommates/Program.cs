@@ -61,6 +61,29 @@ namespace Roommates
                         Console.Write("Press any key to continue");
                         Console.ReadKey();
                         break;
+                    case ("Update a room"):
+                        List<Room> roomOptions = roomRepo.GetAll();
+                        foreach (Room r in roomOptions)
+                        {
+                            Console.WriteLine($"{r.Id} - {r.Name} Max Occupancy({r.MaxOccupancy})");
+                        }
+
+                        Console.Write("Which room would you like to update? ");
+                        int selectedRoomId = int.Parse(Console.ReadLine());
+                        Room selectedRoom = roomOptions.FirstOrDefault(r => r.Id == selectedRoomId);
+
+                        Console.Write("New Name: ");
+                        selectedRoom.Name = Console.ReadLine();
+
+                        Console.Write("New Max Occupancy: ");
+                        selectedRoom.MaxOccupancy = int.Parse(Console.ReadLine());
+
+                        roomRepo.Update(selectedRoom);
+
+                        Console.WriteLine("Room has been successfully updated");
+                        Console.Write("Press any key to continue");
+                        Console.ReadKey();
+                        break;
                     case ("Show all chores"):
                         List<Chore> chores = choreRepo.GetAll();
                         foreach (Chore c in chores)
@@ -163,6 +186,32 @@ namespace Roommates
                         Console.Write("Press any key to continue");
                         Console.ReadKey();
                         break;
+                    case ("Update a roommate"):
+                        List<Roommate> roommateOptions = roommateRepo.GetAll();
+                        foreach (Roommate r in roommateOptions)
+                        {
+                            Console.WriteLine($"{r.Id} - {r.FirstName} {r.LastName}");
+                        }
+                        Console.Write("Which roommate would you like to update? ");
+                        int selectedRoommateId = int.Parse(Console.ReadLine());
+                        Roommate selectedRoommate = roommateOptions.FirstOrDefault(r => r.Id == selectedRoommateId);
+                        Console.Write("Roommate first name: ");
+                        selectedRoommate.FirstName = Console.ReadLine();
+                        Console.Write("Roommate last name: ");
+                        selectedRoommate.LastName = Console.ReadLine();
+                        Console.Write("Roommate rent portion: ");
+                        selectedRoommate.RentPortion = int.Parse(Console.ReadLine());
+                        Console.Write("Roommate move in date: ");
+                        selectedRoommate.MovedInDate = Convert.ToDateTime(Console.ReadLine());
+                        Console.Write("Roommate room id: ");
+                        int selectedRoommateRoomId = int.Parse(Console.ReadLine());
+                        Room selectedRoommateRoom = roomRepo.GetById(selectedRoommateRoomId);
+                        selectedRoommate.Room = selectedRoommateRoom;
+                        roommateRepo.Update(selectedRoommate);
+                        Console.WriteLine($"{selectedRoommate.FirstName} {selectedRoommate.LastName} has been updated.");
+                        Console.Write("Press any key to continue");
+                        Console.ReadKey();
+                        break;
                     case ("Exit"):
                         runProgram = false;
                         break;
@@ -188,6 +237,7 @@ namespace Roommates
                 "Search for roommate",
                 "Search roommates by room id",
                 "Add a roommate",
+                "Update a roommate",
                 "Exit"
             };
 

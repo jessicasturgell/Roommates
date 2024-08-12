@@ -224,5 +224,32 @@ namespace Roommates.Repositories
                 }
             }
         }
+        public void Update(Roommate roommate)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    UPDATE Roommate
+                    SET FirstName = @firstName,
+                    LastName = @lastName,
+                    RentPortion = @rentPortion,
+                    MoveInDate = @moveInDate,
+                    RoomId = @roomId
+                    WHERE id = @id
+                     ";
+                    cmd.Parameters.AddWithValue("@firstName", roommate.FirstName);
+                    cmd.Parameters.AddWithValue("@lastName", roommate.LastName);
+                    cmd.Parameters.AddWithValue("@rentPortion", roommate.RentPortion);
+                    cmd.Parameters.AddWithValue("@moveInDate", roommate.MovedInDate);
+                    cmd.Parameters.AddWithValue("@roomId", roommate.Room.Id);
+                    cmd.Parameters.AddWithValue("@id", roommate.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
