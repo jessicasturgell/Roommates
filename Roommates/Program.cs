@@ -135,6 +135,34 @@ namespace Roommates
                         }
                             Console.ReadKey();
                         break;
+                    case ("Add a roommate"):
+                        Console.Write("Roommate first name: ");
+                        string firstName = Console.ReadLine();
+                        Console.Write("Roommate last name: ");
+                        string lastName = Console.ReadLine();
+                        Console.Write("Roommate rent portion: ");
+                        string rentPortion = Console.ReadLine();
+                        Console.Write("Roommate move in date: ");
+                        string moveInDate = Console.ReadLine();
+                        Console.Write("Roommate room id: ");
+                        string roommateRoomId = Console.ReadLine();
+                        Room roommateRoom = roomRepo.GetById(Convert.ToInt32(roommateRoomId));
+
+                        Roommate roommateToAdd = new Roommate()
+                        {
+                            FirstName = firstName,
+                            LastName = lastName,
+                            RentPortion = Convert.ToInt32(rentPortion),
+                            MovedInDate = Convert.ToDateTime(moveInDate),
+                            Room = roommateRoom
+                        };
+
+                        roommateRepo.Insert(roommateToAdd);
+
+                        Console.WriteLine($"{roommateToAdd.FirstName} {roommateToAdd.LastName} has been added and assigned an Id of {roommateToAdd.Id}");
+                        Console.Write("Press any key to continue");
+                        Console.ReadKey();
+                        break;
                     case ("Exit"):
                         runProgram = false;
                         break;
@@ -159,6 +187,7 @@ namespace Roommates
                 "Show all roommates",
                 "Search for roommate",
                 "Search roommates by room id",
+                "Add a roommate",
                 "Exit"
             };
 

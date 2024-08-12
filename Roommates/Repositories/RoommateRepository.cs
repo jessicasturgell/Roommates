@@ -139,11 +139,12 @@ namespace Roommates.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     // Here we setup the command with the SQL we want to execute before we execute it.
-                    cmd.CommandText = @"SELECT rm.Id, rm.FirstName, rm.LastName, rm.RentPortion, rm.MoveInDate, r.Id, r.Name, r.MaxOccupancy
-FROM Roommate rm
-JOIN Room r
-ON rm.RoomId = r.Id
-WHERE r.Id = @id";
+                    cmd.CommandText = @"
+                    SELECT rm.Id, rm.FirstName, rm.LastName, rm.RentPortion, rm.MoveInDate, r.Id, r.Name, r.MaxOccupancy
+                    FROM Roommate rm
+                    JOIN Room r
+                    ON rm.RoomId = r.Id
+                    WHERE r.Id = @id";
                     cmd.Parameters.AddWithValue("@id", roomId);
 
                     // Execute the SQL in the database and get a "reader" that will give us access to the data.
@@ -199,6 +200,27 @@ WHERE r.Id = @id";
 
                     // Return the list of rooms who whomever called this method.
                     return roommates;
+                }
+            }
+        }
+        public void Insert(Roommate roommate)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    INSERT INTO Roommate (FirstName, LastName, RentPortion, MoveInDate, RoomId)
+                    OUTPUT INSERTED.Id
+                    VALUES (@firstName, @lastName, @rentPortion, @moveInDate, @roomId)";
+                    cmd.Parameters.AddWithValue("@firstName", roommate.FirstName);
+                    cmd.Parameters.AddWithValue("@lastName", roommate.LastName);
+                    cmd.Parameters.AddWithValue("@rentPortion", roommate.RentPortion);
+                    cmd.Parameters.AddWithValue("@moveInDate", roommate.MovedInDate);
+                    cmd.Parameters.AddWithValue("@roomId", roommate.Room.Id);
+                    int id = (int)cmd.ExecuteScalar();
+                    roommate.Id = id;
                 }
             }
         }
